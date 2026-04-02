@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="description" content="AccuCore Nexus 2025 - المنصة التعليمية المتكاملة للمحاسبة والإدارة والاقتصاد والتأمين">
+    <title>AccuCore Nexus 2025 | المنصة التعليمية المتكاملة</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ============================================
+           TABLE OF CONTENTS
+           1. CSS Variables & Theme System
+           2. Reset & Base Styles
+           3. Lock Screens (Student & Admin)
+           4. Premium Header & Navigation
+           5. Admin Dashboard
+           6. Subject Tabs
+           7. Video Cards
+           8. Footer
+           9. Back to Top & Progress Bar
+           10. Responsive Design
+        ============================================ */
+
+        /* ---------- 1. CSS VARIABLES ---------- */
+        :root {
+            --color-primary: #14b8a6;
+            --color-primary-dark: #0d9488;
+            --color-primary-light: #5eead4;
+            --color-secondary: #8b5cf6;
+            --color-secondary-dark: #7c3aed;
+            --color-secondary-light: #a78bfa;
+            --color-accent: #f59e0b;
+            --color-danger: #ef4444;
+            --color-success: #10b981;
+            --gradient-primary: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            --gradient-primary-reverse: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
+            --gradient-hover: linear-gradient(135deg, var(--color-primary-dark), var(--color-secondary-dark));
+            --gradient-accent: linear-gradient(135deg, var(--color-accent), #eab308);
+            --gradient-danger: linear-gradient(135deg, var(--color-danger), #dc2626);
+            --bg-light: #f8fafc;
+            --surface-light: #ffffff;
+            --surface-elevated-light: #f1f5f9;
+            --text-light-primary: #0f172a;
+            --text-light-secondary: #475569;
+            --text-light-muted: #64748b;
+            --border-light: #e2e8f0;
+            --bg-dark: #0a0c15;
+            --surface-dark: #11131f;
+            --surface-elevated-dark: #1a1d2b;
+            --text-dark-primary: #f1f5f9;
+            --text-dark-secondary: #94a3b8;
+            --border-dark: #1e293b;
+            --transition-fast: 0.2s ease;
+            --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --shadow-glow: 0 0 20px rgba(20, 184, 166, 0.3);
+            --radius-sm: 0.5rem;
+            --radius-md: 1rem;
+            --radius-lg: 1.5rem;
+            --radius-xl: 2rem;
+            --radius-full: 9999px;
+        }
+
+        /* ---------- 2. RESET & BASE STYLES ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            line-height: 1.6;
+            transition: background-color var(--transition-smooth), color var(--transition-smooth);
+            overflow-x: hidden;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-light-primary);
+        }
+
+        body.dark-mode {
+            background-color: var(--bg-dark);
+            color: var(--text-dark-primary);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* ---------- 3. LOCK SCREENS (Student & Admin) ---------- */
+        .lock-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.96);
+            backdrop-filter: blur(20px);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .lock-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .lock-card {
+            background: var(--surface-light);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            box-shadow: var(--shadow-2xl);
+            border: 1px solid var(--border-light);
+            animation: scaleIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        body.dark-mode .lock-card {
+            background: var(--surface-dark);
+            border-color: var(--border-dark);
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .lock-icon {
+            width: 85px;
+            height: 85px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.2rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .lock-icon i {
+            font-size: 2.8rem;
+            color: white;
+        }
+
+        .lock-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.2rem;
+            text-align: right;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            transition: all var(--transition-fast);
+            background: var(--surface-light);
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body.dark-mode .input-group input {
+            background: var(--surface-dark);
+            border-color: var(--border-dark);
+            color: var(--text-dark-primary);
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.2);
+        }
+
+        .lock-btn {
+            width: 100%;
+            padding: 0.9rem;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: var(--radius-md);
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .lock-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .error-message {
+            background: var(--color-danger);
+            color: white;
+            padding: 0.7rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 1rem;
+            display: none;
+            font-size: 0.85rem;
+        }
+
+        .switch-link {
+            margin-top: 1.2rem;
+        }
+
+        .switch-link a {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* ---------- 4. PREMIUM HEADER & NAVIGATION ---------- */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all var(--transition-smooth);
+        }
+
+        .header.scrolled {
+            padding: 0.7rem 0;
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--shadow-lg);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        body.dark-mode .header.scrolled {
+            background: rgba(10, 12, 21, 0.95);
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-smooth);
+        }
+
+        .logo:hover .logo-icon {
+            transform: scale(1.05) rotate(5deg);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .logo-icon i {
+            font-size: 1.6rem;
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .logo-badge {
+            background: var(--gradient-accent);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.2rem 0.6rem;
+            border-radius: var(--radius-full);
+            margin-right: 0.5rem;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-badge {
+            background: var(--surface-light);
+            padding: 0.5rem 1.2rem;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-weight: 600;
+            border: 1px solid var(--border-light);
+        }
+
+        body.dark-mode .user-badge {
+            background: var(--surface-dark);
+            border-color: var(--border-dark);
+        }
+
+        .logout-header {
+            background: var(--color-danger);
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: var(--radius-full);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .logout-header:hover {
+            transform: scale(1.02);
+        }
+
+        .theme-toggle {
+            background: var(--surface-light);
+            border: 1px solid var(--border-light);
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all var(--transition-fast);
+        }
+
+        .theme-toggle:hover {
+            background: var(--gradient-primary);
+            color: white;
+            transform: rotate(15deg);
+        }
+
+        /* ---------- 5. ADMIN DASHBOARD ---------- */
+        .admin-dashboard {
+            background: var(--surface-light);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-light);
+        }
+
+        body.dark-mode .admin-dashboard {
+            background: var(--surface-dark);
+            border-color: var(--border-dark);
+        }
+
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: var(--gradient-primary);
+            border-radius: var(--radius-md);
+            padding: 1.2rem;
+            color: white;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 2rem;
+            margin: 0.5rem 0;
+        }
+
+        .logs-table {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 0.8rem;
+            text-align: right;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        body.dark-mode th, body.dark-mode td {
+            border-color: var(--border-dark);
+        }
+
+        /* ---------- 6. SUBJECT TABS ---------- */
+        .subjects-section {
+            margin: 2rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .tabs-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .tab-btn {
+            background: var(--surface-light);
+            border: 2px solid var(--border-light);
+            padding: 0.7rem 1.5rem;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        body.dark-mode .tab-btn {
+            background: var(--surface-dark);
+            border-color: var(--border-dark);
+            color: var(--text-dark-primary);
+        }
+
+        .tab-btn.active,
+        .tab-btn:hover {
+            background: var(--gradient-primary);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .search-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .search-input {
+            padding: 0.8rem 1.2rem;
+            border-radius: var(--radius-full);
+            border: 2px solid var(--border-light);
+            background: var(--surface-light);
+            width: 300px;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body.dark-mode .search-input {
+            background: var(--surface-dark);
+            border-color: var(--border-dark);
+            color: var(--text-dark-primary);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        /* ---------- 7. VIDEO CARDS ---------- */
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 2rem;
+        }
+
+        .video-card {
+            background: var(--surface-light);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            transition: all var(--transition-smooth);
+            border: 1px solid var(--border-light);
+            cursor: pointer;
+        }
+
+        body.dark-mode .video-card {
+            background: var(--surface-dark);
+            border-color: var(--border-dark);
+        }
+
+        .video-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-2xl);
+        }
+
+        .video-thumbnail {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-thumbnail::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.5));
+        }
+
+        .play-icon {
+            position: relative;
+            z-index: 2;
+            font-size: 4rem;
+            color: white;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+            transition: all var(--transition-smooth);
+        }
+
+        .video-card:hover .play-icon {
+            transform: scale(1.15);
+        }
+
+        .video-duration {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.2rem 0.6rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.7rem;
+            color: white;
+            z-index: 2;
+        }
+
+        .subject-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--gradient-primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: var(--radius-full);
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: white;
+            z-index: 2;
+        }
+
+        .video-info {
+            padding: 1.5rem;
+        }
+
+        .video-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .video-description {
+            font-size: 0.85rem;
+            color: var(--text-light-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .video-views {
+            font-size: 0.75rem;
+            color: var(--text-light-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .watch-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            border: 2px solid var(--color-primary);
+            padding: 0.5rem 1.2rem;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            color: var(--color-primary);
+            cursor: pointer;
+            transition: all var(--transition-smooth);
+        }
+
+        .watch-btn:hover {
+            background: var(--gradient-primary);
+            border-color: transparent;
+            color: white;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            background: var(--surface-light);
+            border-radius: var(--radius-xl);
+        }
+
+        /* ---------- 8. FOOTER ---------- */
+        .footer {
+            background: var(--surface-light);
+            border-top: 1px solid var(--border-light);
+            padding: 2rem 0 1rem;
+            margin-top: 3rem;
+        }
+
+        body.dark-mode .footer {
+            background: var(--surface-dark);
+            border-color: var(--border-dark);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-light);
+            font-size: 0.85rem;
+        }
+
+        /* ---------- 9. BACK TO TOP & PROGRESS BAR ---------- */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: var(--gradient-primary);
+            z-index: 1002;
+            transition: width 0.1s ease;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-smooth);
+            z-index: 99;
+            box-shadow: var(--shadow-md);
+        }
+
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* ---------- 10. RESPONSIVE DESIGN ---------- */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+            .header-container {
+                flex-direction: column;
+            }
+            .videos-grid {
+                grid-template-columns: 1fr;
+            }
+            .tabs-container {
+                gap: 0.5rem;
+            }
+            .tab-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+            .lock-card {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .main-platform {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ============================================
+     STUDENT LOCK SCREEN
+     ============================================ -->
+<div id="studentLockScreen" class="lock-screen">
+    <div class="lock-card">
+        <div class="lock-icon">
+            <i class="fas fa-user-graduate"></i>
+        </div>
+        <h2 class="lock-title">بوابة الطالب</h2>
+        <p style="margin-bottom: 1rem; color: var(--text-light-secondary);">أدخل كود الطالب وكلمة المرور</p>
+        <div id="studentError" class="error-message">
+            <i class="fas fa-exclamation-triangle"></i> كود الطالب أو كلمة المرور غير صحيحة
+        </div>
+        <div class="input-group">
+            <label><i class="fas fa-id-card"></i> كود الطالب</label>
+            <input type="text" id="studentCodeInput" placeholder="مثال: S1001">
+        </div>
+        <div class="input-group">
+            <label><i class="fas fa-key"></i> كلمة المرور</label>
+            <input type="password" id="studentPasswordInput" placeholder="••••••">
+        </div>
+        <button class="lock-btn" id="studentLoginBtn">
+            <i class="fas fa-arrow-left"></i> دخول إلى المنصة
+        </button>
+        <div class="switch-link">
+            <a href="#" id="gotoAdminLink"><i class="fas fa-user-shield"></i> تسجيل دخول المدير</a>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================
+     ADMIN LOCK SCREEN
+     ============================================ -->
+<div id="adminLockScreen" class="lock-screen" style="display: none;">
+    <div class="lock-card">
+        <div class="lock-icon">
+            <i class="fas fa-user-tie"></i>
+        </div>
+        <h2 class="lock-title">لوحة المدير</h2>
+        <p style="margin-bottom: 1rem; color: var(--text-light-secondary);">أدخل كلمة مرور المدير</p>
+        <div id="adminError" class="error-message">
+            <i class="fas fa-exclamation-triangle"></i> كلمة المرور غير صحيحة
+        </div>
+        <div class="input-group">
+            <label><i class="fas fa-lock"></i> كلمة المرور</label>
+            <input type="password" id="adminPasswordInput" placeholder="••••••">
+        </div>
+        <button class="lock-btn" id="adminLoginBtn">
+            <i class="fas fa-arrow-left"></i> دخول المدير
+        </button>
+        <div class="switch-link">
+            <a href="#" id="gotoStudentLink"><i class="fas fa-user-graduate"></i> تسجيل دخول الطالب</a>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================
+     MAIN PLATFORM
+     ============================================ -->
+<div id="mainPlatform" class="main-platform">
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container">
+            <div class="header-container">
+                <a href="#" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="logo-text">
+                        AccuCore<span class="logo-badge">2025</span>
+                    </div>
+                </a>
+                
+                <div class="user-section">
+                    <div class="user-badge" id="userBadge">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="userNameDisplay">الطالب</span>
+                    </div>
+                    <button class="logout-header" id="globalLogoutBtn">
+                        <i class="fas fa-sign-out-alt"></i> خروج
+                    </button>
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" style="margin-top: 100px;">
+        <!-- Admin Dashboard (visible only for admin) -->
+        <div id="adminDashboardSection" style="display: none;">
+            <div class="admin-dashboard">
+                <h2 style="margin-bottom: 1rem;"><i class="fas fa-chart-line"></i> لوحة تحكم المدير</h2>
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <i class="fas fa-users fa-2x"></i>
+                        <h3 id="totalStudentsCount">0</h3>
+                        <p>إجمالي الطلاب</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-sign-in-alt fa-2x"></i>
+                        <h3 id="todayLoginsCount">0</h3>
+                        <p>دخول اليوم</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-video fa-2x"></i>
+                        <h3>42+</h3>
+                        <p>فيديو تعليمي</p>
+                    </div>
+                </div>
+                <h3 style="margin-bottom: 1rem;"><i class="fas fa-history"></i> سجل دخول وخروج الطلاب</h3>
+                <div class="logs-table">
+                    <table id="logsTable">
+                        <thead>
+                            <tr>
+                                <th>اسم الطالب</th>
+                                <th>كود الطالب</th>
+                                <th>وقت الدخول</th>
+                                <th>وقت الخروج</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logsTableBody"></tbody>
+                     </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hero Section -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <h1 style="font-size: 2.5rem; font-weight: 800; background: var(--gradient-primary); background-clip: text; -webkit-background-clip: text; color: transparent;">
+                AccuCore Nexus 2025
+            </h1>
+            <p style="color: var(--text-light-secondary);">منصة تعليمية متكاملة | 7 مسارات دراسية | أكثر من 40 فيديو تعليمي</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-wrapper">
+            <input type="text" id="searchInput" class="search-input" placeholder="🔍 ابحث عن فيديو...">
+        </div>
+
+        <!-- Subject Tabs -->
+        <div class="tabs-container" id="tabsContainer"></div>
+
+        <!-- Videos Grid -->
+        <div id="videosContainer" class="videos-grid"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3><i class="fas fa-chart-line"></i> AccuCore 2025</h3>
+                    <p>منصة تعليمية متطورة في المحاسبة والإدارة والاقتصاد والتأمين.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>المواد الدراسية</h3>
+                    <p>التأمين | المحاسبة الإدارية | إدارة مواد | اقتصاد دولي | محاسبة ضريبية | مراجعة | موارد بشرية</p>
+                </div>
+                <div class="footer-section">
+                    <h3>تواصل معنا</h3>
+                    <p><i class="fas fa-envelope"></i> support@accucore.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 AccuCore Nexus - جميع الحقوق محفوظة</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+<script>
+    // ============================================
+    // STUDENTS DATABASE (مصفوفة مرتبة)
+    // ============================================
+    const STUDENTS = [
+        { code: "S1001", password: "123456", name: "أحمد محمد علي", avatar: "أ", email: "ahmed@accucore.com" },
+        { code: "S1002", password: "123456", name: "سارة خالد حسن", avatar: "س", email: "sara@accucore.com" },
+        { code: "S1003", password: "123456", name: "محمد إبراهيم محمود", avatar: "م", email: "mohamed@accucore.com" },
+        { code: "S1004", password: "123456", name: "فاطمة أحمد سعيد", avatar: "ف", email: "fatma@accucore.com" },
+        { code: "S1005", password: "123456", name: "عمر وائل رشاد", avatar: "ع", email: "omar@accucore.com" },
+        { code: "S1006", password: "123456", name: "ليلى محمود كمال", avatar: "ل", email: "laila@accucore.com" },
+        { code: "S1007", password: "123456", name: "يوسف كريم سامي", avatar: "ي", email: "youssef@accucore.com" },
+        { code: "S1008", password: "123456", name: "نورا سعيد عبدالله", avatar: "ن", email: "nora@accucore.com" },
+        { code: "S1009", password: "123456", name: "خالد عبدالرحمن", avatar: "خ", email: "khaled@accucore.com" },
+        { code: "S1010", password: "123456", name: "منى طارق رفعت", avatar: "م", email: "mona@accucore.com" }
+    ];
+
+    // Admin password
+    const ADMIN_PASSWORD = "admin2025";
+
+    // Access logs (دخول وخروج الطلاب)
+    let accessLogs = [];
+
+    // Current user state
+    let currentUser = null;
+
+    // ============================================
+    // VIDEO DATA - 7 SUBJECTS WITH 6 VIDEOS EACH
+    // ============================================
+    const subjectsData = [
+        { id: "insurance", name: "التأمين", icon: "fas fa-shield-alt", videos: [
+            { title: "مقدمة في علم التأمين", desc: "تعريف التأمين - أنواعه - أهميته في العصر الحديث", duration: "25:30", views: "1.2K", url: "https://youtu.be/1hWbccrddAI" },
+            { title: "التأمين الصحي الشامل", desc: "تحليل شامل لنماذج التأمين الصحي", duration: "32:15", views: "890", url: "https://youtu.be/gHcE1UoVcR4" },
+            { title: "تأمينات الحياة والتخطيط المالي", desc: "استراتيجيات إدارة وثائق التأمين", duration: "28:45", views: "1.5K", url: "https://youtu.be/XvXs8R1kW0U" },
+            { title: "إدارة المخاطر في شركات التأمين", desc: "أساليب قياس وتحليل المخاطر", duration: "35:20", views: "720", url: "https://youtu.be/FkYjl1lE_5I" },
+            { title: "التأمين البحري والجوي", desc: "تغطيات ومخاطر النقل الدولي", duration: "22:10", views: "560", url: "https://youtu.be/1A8fT4lPTow" },
+            { title: "إعادة التأمين واستراتيجياتها", desc: "كيفية توزيع المخاطر بين الشركات", duration: "30:00", views: "430", url: "https://youtu.be/ALGmPQtBGpY" }
+        ]},
+        { id: "manacc", name: "المحاسبة الإدارية", icon: "fas fa-chart-line", videos: [
+            { title: "مدخل إلى المحاسبة الإدارية", desc: "الفرق بين المحاسبة المالية والإدارية", duration: "28:30", views: "2.1K", url: "https://youtu.be/Mj-DyLnpVTs" },
+            { title: "تحليل التكلفة-حجم-الربح", desc: "نقطة التعادل واتخاذ القرارات", duration: "34:20", views: "1.8K", url: "https://youtu.be/7O1Vq5-0CAI" },
+            { title: "الموازنات التخطيطية", desc: "إعداد الموازنات التشغيلية", duration: "31:15", views: "1.4K", url: "https://youtu.be/_B8lYq-4HqA" },
+            { title: "المحاسبة على أساس النشاط ABC", desc: "توزيع التكاليف بدقة", duration: "29:45", views: "980", url: "https://youtu.be/NgxxS7pWYmw" },
+            { title: "تقارير الأداء والانحرافات", desc: "تحليل الفروق واتخاذ الإجراءات", duration: "27:30", views: "760", url: "https://youtu.be/sYBSCL0oSQw" },
+            { title: "اتخاذ القرارات الاستراتيجية", desc: "التسعير والمزيج المنتج الأمثل", duration: "33:20", views: "650", url: "https://youtu.be/PWJ5KlT2ZDo" }
+        ]},
+        { id: "supply", name: "إدارة مواد وامداد", icon: "fas fa-truck", videos: [
+            { title: "أسس إدارة سلسلة التوريد", desc: "من المورد إلى العميل", duration: "36:40", views: "1.1K", url: "https://youtu.be/Mi1QBxVjZAw" },
+            { title: "تخطيط متطلبات المواد MRP", desc: "نظم تخطيط الإنتاج", duration: "29:30", views: "890", url: "https://youtu.be/_Yk4wte6tUc" },
+            { title: "إدارة المخزون الأمثل", desc: "نموذج EOQ وتقنيات التحكم", duration: "31:20", views: "1.3K", url: "https://youtu.be/6ZtHZlYJ3Mk" },
+            { title: "المشتريات الاستراتيجية", desc: "مفاوضات الموردين", duration: "28:15", views: "720", url: "https://youtu.be/fH2lXON-0fY" },
+            { title: "لوجستيات النقل والتوزيع", desc: "تقنيات التخزين الحديثة", duration: "34:10", views: "580", url: "https://youtu.be/7oXgbZqWwLg" },
+            { title: "تقنيات Blockchain في سلسلة التوريد", desc: "الشفافية وتتبع المنتجات", duration: "37:25", views: "420", url: "https://youtu.be/syvmEa3gRKw" }
+        ]},
+        { id: "inteco", name: "اقتصاد دولي", icon: "fas fa-globe", videos: [
+            { title: "النظريات الكلاسيكية للتجارة", desc: "الميزة النسبية والمطلقة", duration: "30:30", views: "1.7K", url: "https://youtu.be/WyVrzMJcIQA" },
+            { title: "سياسات التجارة الدولية", desc: "الرسوم الجمركية والحصص", duration: "32:45", views: "1.4K", url: "https://youtu.be/9jE9kPvYl1w" },
+            { title: "ميزان المدفوعات", desc: "تأثير تقلبات العملات", duration: "29:30", views: "1.2K", url: "https://youtu.be/5HXQ2NdnAIg" },
+            { title: "المنظمات الاقتصادية الدولية", desc: "WTO, IMF ودورها", duration: "35:20", views: "980", url: "https://youtu.be/ly9CkmK2BGA" },
+            { title: "التكامل الاقتصادي", desc: "دراسة حالة الاتحاد الأوروبي", duration: "33:15", views: "850", url: "https://youtu.be/kC6e5WcDgwQ" },
+            { title: "العولمة والاستثمار", desc: "الاستثمار الأجنبي المباشر", duration: "31:40", views: "730", url: "https://youtu.be/VIaCkHxrE7k" }
+        ]},
+        { id: "taxacc", name: "المحاسبة الضريبية", icon: "fas fa-file-invoice-dollar", videos: [
+            { title: "مقدمة في النظام الضريبي", desc: "أنواع الضرائب", duration: "26:30", views: "1.9K", url: "https://youtu.be/2nOfmGcx9R0" },
+            { title: "ضريبة الدخل على الأفراد", desc: "الوعاء الضريبي والإعفاءات", duration: "34:20", views: "1.6K", url: "https://youtu.be/MuWr8w_7FOw" },
+            { title: "ضريبة الدخل على الشركات", desc: "حساب الضريبة والإقرارات", duration: "31:45", views: "1.3K", url: "https://youtu.be/sAUo-bxZ-lQ" },
+            { title: "ضريبة القيمة المضافة", desc: "آلية التسجيل والخصم", duration: "28:30", views: "1.1K", url: "https://youtu.be/XWqZ_XRmqCU" },
+            { title: "الإقرارات الضريبية", desc: "نماذج الإقرارات والمواعيد", duration: "25:15", views: "890", url: "https://youtu.be/yCzWoC94m9k" },
+            { title: "التخطيط الضريبي", desc: "استراتيجيات التقليل القانوني", duration: "36:20", views: "760", url: "https://youtu.be/dZg6TvI-jro" }
+        ]},
+        { id: "audit", name: "الرقابة والمراجعة", icon: "fas fa-clipboard-list", videos: [
+            { title: "مفاهيم التدقيق", desc: "أنواع المراجعة", duration: "29:30", views: "1.5K", url: "https://youtu.be/bH_sd0xUqBQ" },
+            { title: "معايير المراجعة الدولية ISA", desc: "الإطار المهني", duration: "33:20", views: "1.2K", url: "https://youtu.be/-fCqQ_y8XU8" },
+            { title: "تخطيط المراجعة", desc: "تقييم المخاطر", duration: "31:45", views: "980", url: "https://youtu.be/l96KjXa-FlA" },
+            { title: "إجراءات المراجعة", desc: "جمع الأدلة والإثباتات", duration: "27:30", views: "870", url: "https://youtu.be/33pzG4w5cQs" },
+            { title: "تقرير المراجعة", desc: "أنواع الرأي", duration: "25:15", views: "760", url: "https://youtu.be/g8c1XJ6UqnI" },
+            { title: "الرقابة الداخلية", desc: "نظام الرقابة وتقييمه", duration: "34:40", views: "650", url: "https://youtu.be/fGvUa-8lFqE" }
+        ]},
+        { id: "hr", name: "الموارد البشرية", icon: "fas fa-users", videos: [
+            { title: "أساسيات إدارة الموارد البشرية", desc: "التخطيط للقوى العاملة", duration: "28:30", views: "2.2K", url: "https://youtu.be/hj5dP_yMhAk" },
+            { title: "التوظيف والاختيار", desc: "مقابلات التقييم", duration: "32:15", views: "1.9K", url: "https://youtu.be/QaK1tOl6gM0" },
+            { title: "التدريب والتطوير", desc: "تنمية الكفاءات البشرية", duration: "30:45", views: "1.6K", url: "https://youtu.be/tFteNYiG-bs" },
+            { title: "تقييم الأداء", desc: "KPI ونظام 360 درجة", duration: "29:20", views: "1.4K", url: "https://youtu.be/E0nUlyOFKc8" },
+            { title: "التعويضات والحوافز", desc: "هياكل الرواتب", duration: "33:10", views: "1.1K", url: "https://youtu.be/0_BlSQ6lkbY" },
+            { title: "علاقات الموظفين", desc: "قوانين العمل وحل النزاعات", duration: "31:25", views: "980", url: "https://youtu.be/sMwSQcOYsCM" }
+        ]}
+    ];
+
+    // State
+    let activeSubjectId = subjectsData[0].id;
+    let currentSearchTerm = "";
+
+    // Helper Functions
+    function getYouTubeId(url) {
+        if (!url) return null;
+        const patterns = [/(?:youtube\.com\/watch\?v=)([^&]+)/i, /(?:youtu\.be\/)([^?]+)/i];
+        for (let pattern of patterns) {
+            const match = url.match(pattern);
+            if (match && match[1]) return match[1];
+        }
+        return null;
+    }
+
+    function getThumbnailUrl(url) {
+        const id = getYouTubeId(url);
+        return id ? `https://img.youtube.com/vi/${id}/maxresdefault.jpg` : 'https://via.placeholder.com/400x200?text=AccuCore';
+    }
+
+    // ============================================
+    // LOGS MANAGEMENT
+    // ============================================
+    function addLoginLog(student) {
+        accessLogs.unshift({
+            studentName: student.name,
+            studentCode: student.code,
+            loginTime: new Date().toLocaleString('ar-EG'),
+            logoutTime: "—"
+        });
+        updateAdminLogsTable();
+    }
+
+    function updateLogoutForStudent(studentCode) {
+        const now = new Date().toLocaleString('ar-EG');
+        for (let i = 0; i < accessLogs.length; i++) {
+            if (accessLogs[i].studentCode === studentCode && accessLogs[i].logoutTime === "—") {
+                accessLogs[i].logoutTime = now;
+                break;
+            }
+        }
+        updateAdminLogsTable();
+    }
+
+    function updateAdminLogsTable() {
+        const tbody = document.getElementById('logsTableBody');
+        if (!tbody) return;
+        tbody.innerHTML = accessLogs.map(log => `
+            <tr>
+                <td>${log.studentName}</td>
+                <td>${log.studentCode}</td>
+                <td>${log.loginTime}</td>
+                <td>${log.logoutTime}</td>
+            </tr>
+        `).join('');
+        document.getElementById('totalStudentsCount').innerText = STUDENTS.length;
+        const today = new Date().toDateString();
+        const todayLogins = accessLogs.filter(log => new Date(log.loginTime).toDateString() === today).length;
+        document.getElementById('todayLoginsCount').innerText = todayLogins;
+    }
+
+    // ============================================
+    // AUTHENTICATION FUNCTIONS
+    // ============================================
+    function studentLogin(code, password) {
+        const student = STUDENTS.find(s => s.code === code && s.password === password);
+        if (!student) return false;
+        currentUser = { type: 'student', data: student };
+        localStorage.setItem('accucore_user', JSON.stringify(currentUser));
+        addLoginLog(student);
+        showMainPlatform();
+        updateUIForUser();
+        return true;
+    }
+
+    function adminLogin(password) {
+        if (password !== ADMIN_PASSWORD) return false;
+        currentUser = { type: 'admin', data: { name: 'المدير' } };
+        localStorage.setItem('accucore_user', JSON.stringify(currentUser));
+        showMainPlatform();
+        updateUIForUser();
+        return true;
+    }
+
+    function logout() {
+        if (currentUser && currentUser.type === 'student') {
+            updateLogoutForStudent(currentUser.data.code);
+        }
+        currentUser = null;
+        localStorage.removeItem('accucore_user');
+        document.getElementById('studentLockScreen').classList.remove('hidden');
+        document.getElementById('adminLockScreen').style.display = 'none';
+        document.getElementById('mainPlatform').style.display = 'none';
+        document.getElementById('studentCodeInput').value = '';
+        document.getElementById('studentPasswordInput').value = '';
+        document.getElementById('adminPasswordInput').value = '';
+    }
+
+    function showMainPlatform() {
+        document.getElementById('studentLockScreen').classList.add('hidden');
+        document.getElementById('adminLockScreen').style.display = 'none';
+        document.getElementById('mainPlatform').style.display = 'block';
+    }
+
+    function updateUIForUser() {
+        const userNameSpan = document.getElementById('userNameDisplay');
+        const adminDash = document.getElementById('adminDashboardSection');
+        if (currentUser.type === 'student') {
+            userNameSpan.innerHTML = `<i class="fas fa-user-graduate"></i> ${currentUser.data.name}`;
+            adminDash.style.display = 'none';
+        } else {
+            userNameSpan.innerHTML = `<i class="fas fa-user-shield"></i> المدير`;
+            adminDash.style.display = 'block';
+            updateAdminLogsTable();
+        }
+    }
+
+    function checkAutoLogin() {
+        const saved = localStorage.getItem('accucore_user');
+        if (saved) {
+            try {
+                currentUser = JSON.parse(saved);
+                if (currentUser.type === 'student' && STUDENTS.find(s => s.code === currentUser.data.code)) {
+                    showMainPlatform();
+                    updateUIForUser();
+                } else if (currentUser.type === 'admin') {
+                    showMainPlatform();
+                    updateUIForUser();
+                } else {
+                    localStorage.removeItem('accucore_user');
+                }
+            } catch(e) { localStorage.removeItem('accucore_user'); }
+        }
+    }
+
+    // ============================================
+    // RENDER FUNCTIONS
+    // ============================================
+    function renderTabs() {
+        const container = document.getElementById('tabsContainer');
+        if (!container) return;
+        container.innerHTML = subjectsData.map(sub => `
+            <button class="tab-btn ${sub.id === activeSubjectId ? 'active' : ''}" data-id="${sub.id}">
+                <i class="${sub.icon}"></i> ${sub.name}
+            </button>
+        `).join('');
+        
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                activeSubjectId = btn.dataset.id;
+                renderTabs();
+                renderVideos();
+            });
+        });
+    }
+
+    function renderVideos() {
+        const subject = subjectsData.find(s => s.id === activeSubjectId);
+        if (!subject) return;
+        
+        let videos = subject.videos;
+        if (currentSearchTerm) {
+            const term = currentSearchTerm.toLowerCase();
+            videos = videos.filter(v => v.title.toLowerCase().includes(term) || v.desc.toLowerCase().includes(term));
+        }
+        
+        const container = document.getElementById('videosContainer');
+        if (!container) return;
+        
+        if (videos.length === 0) {
+            container.innerHTML = '<div class="no-results"><i class="fas fa-search fa-3x"></i><p style="margin-top: 1rem;">لا توجد نتائج مطابقة للبحث</p></div>';
+            return;
+        }
+        
+        container.innerHTML = videos.map(video => {
+            const thumb = getThumbnailUrl(video.url);
+            return `
+                <div class="video-card" data-url="${video.url}">
+                    <div class="video-thumbnail" style="background-image: url('${thumb}'); background-size: cover;">
+                        <i class="fas fa-play-circle play-icon"></i>
+                        <span class="video-duration"><i class="far fa-clock"></i> ${video.duration}</span>
+                        <span class="subject-badge">${subject.name}</span>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">${video.title}</h3>
+                        <p class="video-description">${video.desc}</p>
+                        <div class="video-meta">
+                            <span class="video-views"><i class="far fa-eye"></i> ${video.views} مشاهدة</span>
+                            <button class="watch-btn" data-url="${video.url}">
+                                <i class="fab fa-youtube"></i> مشاهدة
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+        document.querySelectorAll('.video-card, .watch-btn').forEach(el => {
+            el.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const card = el.closest('.video-card');
+                const url = card ? card.dataset.url : el.dataset.url;
+                if (url) window.open(url, '_blank');
+            });
+        });
+    }
+
+    function handleSearch() {
+        currentSearchTerm = document.getElementById('searchInput').value;
+        renderVideos();
+    }
+
+    // ============================================
+    // THEME & SCROLL HANDLERS
+    // ============================================
+    function initTheme() {
+        const savedTheme = localStorage.getItem('accucore-theme');
+        const isDark = savedTheme === 'dark';
+        if (isDark) {
+            document.body.classList.add('dark-mode');
+            document.querySelector('#themeToggle i').className = 'fas fa-sun';
+        }
+    }
+
+    function toggleTheme() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        const icon = document.querySelector('#themeToggle i');
+        icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+        localStorage.setItem('accucore-theme', isDark ? 'dark' : 'light');
+    }
+
+    function handleScroll() {
+        const header = document.getElementById('header');
+        const backBtn = document.getElementById('backToTop');
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = (scrollTop / scrollHeight) * 100;
+        document.getElementById('progressBar').style.width = scrollPercent + '%';
+        
+        if (scrollTop > 50) header.classList.add('scrolled');
+        else header.classList.remove('scrolled');
+        
+        if (scrollTop > 400) backBtn.classList.add('active');
+        else backBtn.classList.remove('active');
+    }
+
+    // ============================================
+    // INITIALIZATION
+    // ============================================
+    function init() {
+        renderTabs();
+        renderVideos();
+        initTheme();
+        checkAutoLogin();
+        
+        // Lock screen events
+        document.getElementById('studentLoginBtn').addEventListener('click', () => {
+            const code = document.getElementById('studentCodeInput').value.trim();
+            const pass = document.getElementById('studentPasswordInput').value;
+            if (studentLogin(code, pass)) {
+                document.getElementById('studentError').style.display = 'none';
+            } else {
+                document.getElementById('studentError').style.display = 'block';
+            }
+        });
+        
+        document.getElementById('adminLoginBtn').addEventListener('click', () => {
+            const pass = document.getElementById('adminPasswordInput').value;
+            if (adminLogin(pass)) {
+                document.getElementById('adminError').style.display = 'none';
+            } else {
+                document.getElementById('adminError').style.display = 'block';
+            }
+        });
+        
+        // Switch between lock screens
+        document.getElementById('gotoAdminLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('studentLockScreen').classList.add('hidden');
+            document.getElementById('adminLockScreen').style.display = 'flex';
+        });
+        
+        document.getElementById('gotoStudentLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('adminLockScreen').style.display = 'none';
+            document.getElementById('studentLockScreen').classList.remove('hidden');
+        });
+        
+        // Global logout
+        document.getElementById('globalLogoutBtn').addEventListener('click', () => logout());
+        
+        // Theme toggle
+        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+        
+        // Search
+        document.getElementById('searchInput').addEventListener('input', handleSearch);
+        
+        // Back to top
+        document.getElementById('backToTop').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Scroll handler
+        window.addEventListener('scroll', handleScroll);
+        
+        // Enter key for login
+        document.getElementById('studentPasswordInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') document.getElementById('studentLoginBtn').click();
+        });
+        document.getElementById('adminPasswordInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') document.getElementById('adminLoginBtn').click();
+        });
+    }
+    
+    document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
